@@ -1,0 +1,10 @@
+7750005|Atún Florida 170g|Conservas|5.80|70|DISPONIBLE
+7750002|Aceite Primor 1L|Abarrotes|9.50|60|DISPONIBLE
+7750009|Detergente Bolívar 800g|Limpieza|12.90|40|DISPONIBLE
+7750001|Arroz Costeño 5kg|Abarrotes|24.90|85|DISPONIBLE
+7750007|Papel Higiénico Suave x4|Limpieza|7.90|0|AGOTADO
+7750003|Leche Gloria 400g|Lácteos|4.20|120|DISPONIBLE
+7750010|Gaseosa Inca Kola 2L|Bebidas|8.50|55|DISPONIBLE
+7750004|Fideos Don Vittorio 500g|Abarrotes|3.90|90|DISPONIBLE
+7750008|Yogurt Gloria 1L|Lácteos|7.20|35|DISPONIBLE
+7750006|Agua San Luis 625ml|Bebidas|1.50|200|DISPONIBLE
