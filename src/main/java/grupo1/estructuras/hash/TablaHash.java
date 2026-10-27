@@ -1,76 +1,64 @@
-package grupo1.estructuras.hash;
+package grupo1.estructuras;
 
 public class TablaHash<K, V> {
-    private static final int DEFAULT_CAPACITY = 10;
-    private HashNode<K, V>[] buckets;
-    private int size;
+    // Estructura de nodos internos con encadenamiento (listas enlazadas) para colisiones
+    private static class NodoHash<K, V> {
+        K clave;
+        V valor;
+        NodoHash<K, V> siguiente;
 
-    // Nodo interno para el encadenamiento (Listas Enlazadas)
-    private static class HashNode<K, V> {
-        K key;
-        V value;
-        HashNode<K, V> next;
-
-        public HashNode(K key, V value) {
-            this.key = key;
-            this.value = value;
+        public NodoHash(K clave, V valor) {
+            this.clave = clave;
+            this.valor = valor;
+            this.siguiente = null;
         }
     }
+
+    private NodoHash<K, V>[] tabla;
+    private int capacidad;
+    private int tamanio;
 
     @SuppressWarnings("unchecked")
-    public TablaHash() {
-        buckets = new HashNode[DEFAULT_CAPACITY];
-        size = 0;
+    public TablaHash(int capacidad) {
+        this.capacidad = capacidad;
+        this.tabla = new NodoHash[capacidad];
+        this.tamanio = 0;
     }
 
-    // Función de dispersión (Hash Function)
-    private int getBucketIndex(K key) {
-        int hashCode = key.hashCode();
-        return Math.abs(hashCode) % buckets.length;
+    private int funcionHash(K clave) {
+        return Math.abs(clave.hashCode()) % capacidad;
     }
 
-    // Método de Inserción O(1) promedio
-    public void insertar(K key, V value) {
-        int bucketIndex = getBucketIndex(key);
-        HashNode<K, V> head = buckets[bucketIndex];
+    public void insertar(K clave, V valor) {
+        int indice = funcionHash(clave);
+        NodoHash<K, V> actual = tabla[indice];
 
-        // Verificar si la llave ya existe para actualizar su valor
-        HashNode<K, V> temp = head;
-        while (temp != null) {
-            if (temp.key.equals(key)) {
-                temp.value = value;
+        while (actual != null) {
+            if (actual.clave.equals(clave)) {
+                actual.valor = valor; // Actualiza si ya existe
                 return;
             }
-            temp = temp.next;
+            actual = actual.siguiente;
         }
 
-        // Insertar nuevo nodo al inicio de la lista enlazada (Bucket)
-        size++;
-        newNodeSetup(bucketIndex, key, value);
+        NodoHash<K, V> nuevoNodo = new NodoHash<>(clave, valor);
+        nuevoNodo.siguiente = tabla[indice];
+        tabla[indice] = nuevoNodo;
+        tamanio++;
     }
 
-    private void newNodeSetup(int bucketIndex, K key, V value) {
-        HashNode<K, V> head = buckets[bucketIndex];
-        HashNode<K, V> newNode = new HashNode<>(key, value);
-        newNode.next = head;
-        buckets[bucketIndex] = newNode;
-    }
+    public V buscar(K clave) {
+        int indice = funcionHash(clave);
+        NodoHash<K, V> actual = tabla[indice];
 
-    // Método de Búsqueda O(1) promedio
-    public V buscar(K key) {
-        int bucketIndex = getBucketIndex(key);
-        HashNode<K, V> head = buckets[bucketIndex];
-
-        while (head != null) {
-            if (head.key.equals(key)) {
-                return head.value;
+        while (actual != null) {
+            if (actual.clave.equals(clave)) {
+                return actual.valor; // Retorna el objeto (ej. el objeto Pedido) en O(1) promedio
             }
-            head = head.next;
+            actual = actual.siguiente;
         }
-        return null; // Retorna nulo si la llave no existe
+        return null; // No encontrado
     }
-
-    public int getSize() {
-        return size;
-    }
+    
+    // Métodos adicionales según tu implementación (eliminar, tamaño, etc.)
 }
