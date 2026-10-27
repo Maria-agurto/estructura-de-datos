@@ -1,6 +1,8 @@
 package grupo1;
 
+import grupo1.estructuras.TablaHash;
 import grupo1.estructuras.arbol.ArbolRojoNegro;
+import grupo1.modelo.Pedido;
 import grupo1.persistencia.ArchivoProductos;
 import grupo1.ui.consola.MenuInventario;
 import grupo1.ui.consola.MenuSeguridad;
@@ -19,8 +21,11 @@ public class LogiMarket {
 
         // ESTRUCTURAS 
         ArbolRojoNegro arbolProductos = new ArbolRojoNegro();
-        // TODO Paolo:    TablaHash de usuarios y de pedidos
-        // TODO María:    MaxHeap y Pila
+        
+        // TODO Paolo: TablaHash de usuarios y de pedidos (Implementada y compartida)
+        TablaHash<String, Pedido> rastreoHash = new TablaHash<>(100); 
+
+        // TODO María:   MaxHeap y Pila
         // TODO Franklin: Grafo
 
         // CARGA DE ARCHIVOS
@@ -29,13 +34,13 @@ public class LogiMarket {
             System.out.println("Aviso al cargar productos: " + e);
         }
 
-        // MENUS
-        MenuSeguridad menuSeguridad = new MenuSeguridad();
+        // MENUS (Actualizado para inyectar el Scanner y la Tabla Hash en MenuSeguridad)
+        MenuSeguridad menuSeguridad = new MenuSeguridad(sc, rastreoHash);
         MenuInventario menuInventario = new MenuInventario(arbolProductos, sc);
-        // TODO María:    MenuPedidos
+        // TODO María:   MenuPedidos
         // TODO Franklin: MenuDespacho
 
-        //MENU PRINCIPAL
+        // MENU PRINCIPAL
         int opcion;
         do {
             mostrarMenuPrincipal();
@@ -49,6 +54,8 @@ public class LogiMarket {
                 default: System.out.println("Opción no válida.");
             }
         } while (opcion != 0);
+        
+        sc.close();
     }
 
     private static void mostrarMenuPrincipal() {
