@@ -1,6 +1,6 @@
 package grupo1.ui.consola;
 
-import grupo1.estructura.hash.TablaHash;
+import grupo1.estructuras.hash.TablaHash;
 import java.util.Scanner;
 
 public class MenuSeguridad {

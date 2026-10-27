@@ -1,4 +1,4 @@
-package grupo1.estructura.hash;
+package grupo1.estructuras.hash;
 
 public class TablaHash<K, V> {
     private static final int DEFAULT_CAPACITY = 10;

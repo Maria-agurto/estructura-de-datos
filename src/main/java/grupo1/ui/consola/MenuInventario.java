@@ -16,7 +16,7 @@ public class MenuInventario {
     }
     
     private void mostrarMenu(){
-        System.out.println(" ===== Menu de Inventario ==== ");
+        System.out.println("\n\n ===== Menu de Inventario ==== ");
         System.out.println("1. Registrar producto");
         System.out.println("2. Buscar producto por ID");
         System.out.println("3. Reponer stock");
@@ -33,7 +33,7 @@ public class MenuInventario {
         int opc;
         do{
             mostrarMenu();
-            opc=leerEntero("Seleccione una opcion -> ");
+            opc=leerEntero("\nSeleccione una opcion -> ");
             try{
                 switch(opc){
                     case 1: registrarProducto(); break;
@@ -44,8 +44,8 @@ public class MenuInventario {
                     case 6: listarId(); break;
                     case 7: listarAlfabeto(); break;
                     case 8: eliminarProducto(); break;
-                    case 0: System.out.println("Volviendo al menú principal..."); break;
-                    default: System.out.println("Opción no válida.");
+                    case 0: System.out.println("\nVolviendo al menú principal..."); break;
+                    default: System.out.println("\nOpción no válida.");
                     
                 }
             }catch (IllegalArgumentException e) {
@@ -56,7 +56,7 @@ public class MenuInventario {
     }
     
     private void registrarProducto() {
-        System.out.println("-- Registrar producto --");
+        System.out.println("\n-- Registrar producto --");
         int id = leerEntero("Id: ");
         String nombre = leerString("Nombre: ");
         String categoria = leerString("Categoría: ");
@@ -65,56 +65,56 @@ public class MenuInventario {
 
         Producto p = new Producto(id, nombre, categoria, precio, stock);
         arbol.insertar(p);
-        System.out.println("Producto registrado: " + p);
+        System.out.println("\nProducto registrado: " + p);
     }
     
     private void buscarProducto(){
-        System.out.println("-- Buscar producto por ID --");
+        System.out.println("\n-- Buscar producto por ID --");
         int id = leerEntero("Ingrese id de producto a buscar: ");
         Producto p = arbol.buscar(id);
         if(p == null){
-            System.out.println("No existe un producto con el id " + id);
+            System.out.println("\nNo existe un producto con el id " + id);
         }else{
             System.out.println(p);
         }
     }
     
     private void reponerStock(){
-        System.out.println(" -- Reponer stock --");
+        System.out.println("\n -- Reponer stock --");
         int id = leerEntero("Id: ");
         int cantidad = leerEntero("Cantidad a reponer: ");
         arbol.reponerStock(id, cantidad);
         Producto p = arbol.buscar(id);
         System.out.println(p);
-        System.out.println("Stock repuesto.");
+        System.out.println("\nStock repuesto.");
         
     }
     
     private void descontarStock(){
-        System.out.println(" -- Descontar stock --");
+        System.out.println("\n -- Descontar stock --");
         int id = leerEntero("Id: ");
         int cantidad = leerEntero("Cantidad a descontar: ");
         arbol.descontarStock(id, cantidad);
         Producto p = arbol.buscar(id);
         System.out.println(p);
-        System.out.println("Stock descontado.");
+        System.out.println("\nStock descontado.");
     }
     
     private void actualizarDatos(){
-        System.out.println(" -- Actualizar datos --");
+        System.out.println("\n -- Actualizar datos --");
         int id = leerEntero("Ingrese id de producto a actualizar: ");
         Producto p = arbol.buscar(id);
         if(p == null){
-            System.out.println("No existe un producto con el id " + id);
+            System.out.println("\nNo existe un producto con el id " + id);
         }else{
             System.out.println(p);
             int opcion;
             do{
-                System.out.println("1. Nombre");
+                System.out.println("\n1. Nombre");
                 System.out.println("2. Categoria");
                 System.out.println("3. Precio");
                 System.out.println("0. Volver");
-                opcion = leerEntero("Seleccione qué modificará -> ");
+                opcion = leerEntero("\nSeleccione qué modificará -> ");
                 try{
                     switch(opcion){
                         case 1:{
@@ -135,8 +135,8 @@ public class MenuInventario {
                             System.out.println("Precio actualizado.");
                             break;
                         }
-                        case 0: System.out.println("Volviendo a menu..."); break;
-                        default: System.out.println("Opcion no valida"); break;
+                        case 0: System.out.println("\nVolviendo a menu..."); break;
+                        default: System.out.println("\nOpcion no valida"); break;
                     }
                 }catch(IllegalArgumentException e) {
                     System.out.println("Error: " + e.getMessage());
@@ -146,16 +146,16 @@ public class MenuInventario {
     }
     
     private void listarId(){
-        System.out.println("-- Catálogo ordenado por ID --");
+        System.out.println("\n-- Catálogo ordenado por ID --");
         ArrayList<Producto> lista = arbol.inorden();
         if (lista.isEmpty()) {
-            System.out.println("Catálogo vacío.");
+            System.out.println("\nCatálogo vacío.");
             return;
         }
         for (Producto p : lista) {
             System.out.println(p);
         }
-        System.out.println("Total de productos: " + arbol.getTamano());
+        System.out.println("\nTotal de productos: " + arbol.getTamano());
     }
     
     private void listarAlfabeto() {
