@@ -9,6 +9,11 @@ import grupo1.persistencia.ArchivoProductos;
 import grupo1.ui.consola.MenuInventario;
 import grupo1.ui.consola.MenuPedidos;
 import grupo1.ui.consola.MenuSeguridad;
+import grupo1.estructuras.grafo.Grafo;
+import grupo1.modelo.MapaCiudad;
+import grupo1.ui.consola.MenuRutas;
+
+
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -34,7 +39,8 @@ public class LogiMarket {
         Pila pilaAcciones = new Pila();
         
         // TODO Franklin: Grafo
-
+        Grafo mapaCiudad = MapaCiudad.crear();
+        
         // CARGA DE ARCHIVOS
         ArrayList<String> errores = ArchivoProductos.cargar(arbolProductos);   
         for (String e : errores) {
@@ -47,7 +53,8 @@ public class LogiMarket {
         MenuPedidos menuPedidos = new MenuPedidos(arbolProductos, rastreoHash, colaPedidos, pilaAcciones, sc, "vendedor", 1);
         
         // TODO Franklin: MenuDespacho
-
+        MenuRutas menuRutas = new MenuRutas(mapaCiudad, sc);
+        
         // MENU PRINCIPAL
         int opcion;
         do {
@@ -57,7 +64,7 @@ public class LogiMarket {
                 case 1: menuSeguridad.mostrarMenu(); break;
                 case 2: menuInventario.iniciar(); break;
                 case 3: menuPedidos.iniciar(); break;
-                case 4:  break; // TODO Franklin
+                case 4: menuRutas.iniciar(); break; 
                 case 0: System.out.println("Hasta luego."); break;
                 default: System.out.println("Opción no válida.");
             }
