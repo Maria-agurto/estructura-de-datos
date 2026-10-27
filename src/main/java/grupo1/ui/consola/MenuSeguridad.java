@@ -1,101 +1,77 @@
 package grupo1.ui.consola;
 
-import grupo1.estructuras.hash.TablaHash;
+import grupo1.estructuras.TablaHash;
+import grupo1.modelo.Pedido;
+
 import java.util.Scanner;
 
 public class MenuSeguridad {
-    private TablaHash<String, String> usuariosHash; // Clave: Usuario -> Valor: Rol
-    private TablaHash<String, String> rastreoHash;  // Clave: Código Pedido -> Valor: Detalles
+    private Scanner sc;
+    private TablaHash<String, Pedido> rastreoHash; // Tabla compartida con María y Franklin
 
-    public MenuSeguridad() {
-        usuariosHash = new TablaHash<>();
-        rastreoHash = new TablaHash<>();
-        precargarDatosPrueba();
-    }
-
-    private void precargarDatosPrueba() {
-        // Carga de usuarios permitidos según reglas de negocio
-        usuariosHash.insertar("admin", "Administrador");
-        usuariosHash.insertar("vendedor1", "Vendedor");
-        usuariosHash.insertar("repartidor1", "Repartidor");
-
-        // Carga de pedidos iniciales para el rastreo instantáneo O(1)
-        rastreoHash.insertar("PED-001", "Destino: San Miguel | Estado: En Almacén (Listo para despacho)");
-        rastreoHash.insertar("PED-002", "Destino: Pueblo Libre | Estado: En Ruta de Entrega");
-        rastreoHash.insertar("PED-003", "Destino: Breña | Estado: Entregado con éxito");
+    // Constructor que recibe el Scanner y la Tabla Hash compartida desde el Main
+    public MenuSeguridad(Scanner sc, TablaHash<String, Pedido> rastreoHash) {
+        this.sc = sc;
+        this.rastreoHash = rastreoHash;
     }
 
     public void mostrarMenu() {
-        Scanner scanner = new Scanner(System.in);
         int opcion = 0;
-
         do {
-            System.out.println("\n========================================");
-            System.out.println("    LOGIMARKET - MÓDULO DE SEGURIDAD    ");
-            System.out.println("========================================");
+            System.out.println("\n--- MÓDULO DE SEGURIDAD Y RASTREO ---");
             System.out.println("1. Iniciar Sesión (Login por Roles)");
-            System.out.println("2. Rastreo Rápido de Pedido O(1)");
-            System.out.println("3. Salir / Volver al Menú Principal");
+            System.out.println("2. Rastreo Rápido de Pedido (por Código)");
+            System.out.println("3. Regresar al Menú Principal");
             System.out.print("Seleccione una opción: ");
 
-            if (scanner.hasNextInt()) {
-                opcion = scanner.nextInt();
-                scanner.nextLine(); // Limpiar el buffer de entrada
+            String entrada = sc.nextLine();
+            try {
+                opcion = Integer.parseInt(entrada);
+            } catch (NumberFormatException e) {
+                System.out.println("⚠️ Error: Ingrese un número válido.");
+                continue;
+            }
 
-                switch (opcion) {
-                    case 1:
-                        ejecutarLogin(scanner);
-                        break;
-                    case 2:
-                        ejecutarRastreo(scanner);
-                        break;
-                    case 3:
-                        System.out.println("Saliendo del Módulo de Seguridad...");
-                        break;
-                    default:
-                        System.out.println("[Error] Opción no válida. Intente de nuevo.");
-                }
-            } else {
-                System.out.println("[Error] Por favor, ingrese un número válido.");
-                scanner.next(); // Limpiar entrada errónea
+            switch (opcion) {
+                case 1:
+                    realizarLogin();
+                    break;
+                case 2:
+                    rastrearPedido();
+                    break;
+                case 3:
+                    System.out.println("Regresando al menú principal...");
+                    break;
+                default:
+                    System.out.println("❌ Opción inválida. Intente de nuevo.");
             }
         } while (opcion != 3);
     }
 
-    private void ejecutarLogin(Scanner scanner) {
-        System.out.println("\n--- AUTENTICACIÓN DE USUARIO ---");
+    private void realizarLogin() {
+        System.out.println("\n--- INICIO DE SESIÓN ---");
         System.out.print("Ingrese usuario: ");
-        String usuario = scanner.nextLine();
+        String usuario = sc.nextLine();
         System.out.print("Ingrese contraseña: ");
-        String password = scanner.nextLine(); // Validación conceptual en la Hash
-
-        // Búsqueda directa en tiempo O(1) usando tu Tabla Hash
-        String rolAsignado = usuariosHash.buscar(usuario);
-
-        if (rolAsignado != null) {
-            System.out.println("\n[ÉXITO] ¡Acceso concedido!");
-            System.out.println("Usuario: " + usuario + " | Rol Operativo: " + rolAsignado);
-
-            // Aquí posteriormente podrás derivar al submenú del rol correspondiente
-        } else {
-            System.out.println("\n[DENEGADO] Credenciales incorrectas o usuario no registrado.");
-        }
+        String password = sc.nextLine();
+        
+        // Aquí validas con tu tabla hash de usuarios si la manejas de forma independiente
+        System.out.println("Verificando credenciales para el usuario: " + usuario + "...");
     }
 
-    private void ejecutarRastreo(Scanner scanner) {
-        System.out.println("\n--- RASTREO RÁPIDO DE PEDIDOS ---");
-        System.out.print("Ingrese el código único del comprobante (ej. PED-001): ");
-        String codigoPedido = scanner.nextLine();
+    private void rastrearPedido() {
+        System.out.println("\n--- RASTREO RÁPIDO DE PEDIDO (O(1)) ---");
+        System.out.print("Ingrese el código único del pedido (ej. PED-0045): ");
+        String codigo = sc.nextLine();
 
-        // Búsqueda instantánea O(1) en la tabla hash de rastreo
-        String infoPedido = rastreoHash.buscar(codigoPedido);
-
-        if (infoPedido != null) {
-            System.out.println("\n[RESULTADO EN TIEMPO O(1)]");
-            System.out.println("Código: " + codigoPedido);
-            System.out.println("Detalles: " + infoPedido);
+        // Búsqueda directa en la tabla hash compartida con María y Franklin
+        Pedido pedidoEncontrado = rastreoHash.buscar(codigo);
+        
+        if (pedidoEncontrado != null) {
+            System.out.println("¡Pedido localizado con éxito!");
+            System.out.println(pedidoEncontrado); // Asegúrate de que la clase Pedido tenga implementado un buen toString()
         } else {
-            System.out.println("\n[AVISO] No se encontró ningún registro para el código: " + codigoPedido);
+            System.out.println("❌ No se encontró ningún registro asociado al código: " + codigo);
         }
     }
 }
