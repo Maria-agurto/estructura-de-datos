@@ -2,9 +2,12 @@ package grupo1;
 
 import grupo1.estructuras.TablaHash;
 import grupo1.estructuras.arbol.ArbolRojoNegro;
+import grupo1.estructuras.cola.MaxHeap;
+import grupo1.estructuras.cola.Pila;
 import grupo1.modelo.Pedido;
 import grupo1.persistencia.ArchivoProductos;
 import grupo1.ui.consola.MenuInventario;
+import grupo1.ui.consola.MenuPedidos;
 import grupo1.ui.consola.MenuSeguridad;
 
 import java.util.ArrayList;
