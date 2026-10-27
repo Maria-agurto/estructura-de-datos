@@ -3,7 +3,7 @@ package grupo1.ui.consola;
 import grupo1.estructuras.arbol.ArbolRojoNegro;
 import grupo1.estructuras.cola.MaxHeap;
 import grupo1.estructuras.cola.Pila;
-import grupo1.estructuras.hash.TablaHash;
+import grupo1.estructuras.TablaHash;
 import grupo1.modelo.Accion;
 import grupo1.modelo.EstadoPedido;
 import grupo1.modelo.ItemPedido;
@@ -114,7 +114,7 @@ public class MenuPedidos {
             return;
         }
 
-        tablaPedidos.put(codigo, pedido);
+        tablaPedidos.insertar(codigo, pedido);
         heap.insertar(pedido);
         pila.push(new Accion(TipoAccion.REGISTRO_PEDIDO, codigo, copiarItems(items)));
         siguienteSecuencia++;
@@ -141,7 +141,7 @@ public class MenuPedidos {
             System.out.println("No hay acciones para deshacer.");
             return;
         }
-        Pedido pedido = tablaPedidos.get(accion.getCodigoPedido());
+        Pedido pedido = tablaPedidos.buscar(accion.getCodigoPedido());
         if(pedido == null){
             System.out.println("No se encontró el pedido " + accion.getCodigoPedido() + ".");
             return;
