@@ -23,12 +23,13 @@ public class LogiMarket {
         Scanner sc = new Scanner(System.in);   // un solo Scanner 
 
         // ESTRUCTURAS 
+        // Daniela: ArbolRojoNegro
         ArbolRojoNegro arbolProductos = new ArbolRojoNegro();
         
-        // TODO Paolo: TablaHash de usuarios y de pedidos (Implementada y compartida)
+        // Paolo: TablaHash de usuarios y de pedidos (Implementada y compartida)
         TablaHash<String, Pedido> rastreoHash = new TablaHash<>(100); 
 
-        // TODO María:   MaxHeap y Pila
+        // María:   MaxHeap y Pila
         MaxHeap colaPedidos = new MaxHeap();
         Pila pilaAcciones = new Pila();
         
@@ -40,10 +41,9 @@ public class LogiMarket {
             System.out.println("Aviso al cargar productos: " + e);
         }
 
-        // MENUS (Actualizado para inyectar el Scanner y la Tabla Hash en MenuSeguridad)
+        // MENUS 
         MenuSeguridad menuSeguridad = new MenuSeguridad(sc, rastreoHash);
         MenuInventario menuInventario = new MenuInventario(arbolProductos, sc);
-        // TODO María:   MenuPedidos
         MenuPedidos menuPedidos = new MenuPedidos(arbolProductos, rastreoHash, colaPedidos, pilaAcciones, sc, "vendedor", 1);
         
         // TODO Franklin: MenuDespacho
