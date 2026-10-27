@@ -2,7 +2,7 @@ package grupo1.estructuras.grafo;
 
 // Grafo dirigido ponderado con listas de adyacencia.
 // Los nodos se identifican con enteros (0, 1, 2...) y el peso de cada arista son minutos (RN-10).
-// El tamano no es fijo: el arreglo de nodos crece solo, asi se pueden agregar distritos despues.
+//El arreglo de nodos crece solo, asi se pueden agregar distritos despues.
 public class Grafo {
     private static final int CAPACIDAD_INICIAL = 8;
 
