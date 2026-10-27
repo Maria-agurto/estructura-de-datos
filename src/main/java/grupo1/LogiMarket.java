@@ -26,6 +26,9 @@ public class LogiMarket {
         TablaHash<String, Pedido> rastreoHash = new TablaHash<>(100); 
 
         // TODO María:   MaxHeap y Pila
+        MaxHeap colaPedidos = new MaxHeap();
+        Pila pilaAcciones = new Pila();
+        
         // TODO Franklin: Grafo
 
         // CARGA DE ARCHIVOS
@@ -38,6 +41,8 @@ public class LogiMarket {
         MenuSeguridad menuSeguridad = new MenuSeguridad(sc, rastreoHash);
         MenuInventario menuInventario = new MenuInventario(arbolProductos, sc);
         // TODO María:   MenuPedidos
+        MenuPedidos menuPedidos = new MenuPedidos(arbolProductos, rastreoHash, colaPedidos, pilaAcciones, sc, "vendedor", 1);
+        
         // TODO Franklin: MenuDespacho
 
         // MENU PRINCIPAL
@@ -48,7 +53,7 @@ public class LogiMarket {
             switch (opcion) {
                 case 1: menuSeguridad.mostrarMenu(); break;
                 case 2: menuInventario.iniciar(); break;
-                case 3:  break;  // TODO María
+                case 3: menuPedidos.iniciar(); break;
                 case 4:  break; // TODO Franklin
                 case 0: System.out.println("Hasta luego."); break;
                 default: System.out.println("Opción no válida.");
