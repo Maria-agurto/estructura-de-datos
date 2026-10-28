@@ -8,6 +8,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>26</maven.compiler.release>
-        <exec.mainClass>pe.edu.unmsm.logimarket.LogiMarket</exec.mainClass>
+        <exec.mainClass>grupo1.LogiMarket</exec.mainClass>
     </properties>
 </project>
